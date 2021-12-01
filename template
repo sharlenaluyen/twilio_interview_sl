@@ -78,7 +78,7 @@ prettyVerb Chase = "Chase"
 
 
 -- | Change nice verbs to mean verbs 
-nicetomean :: Verb -> String
+-- nicetomean :: Verb -> String
 -- IMPLEMENT HERE
 
 -- | Change sentence nice to mean.
@@ -91,5 +91,5 @@ main :: IO ()
 main =  do
 putStr "Welcome to Cat Speak 101\n"
 print(ex1)
-print(isNice (And (NVN Cats Chase Dogs) (NVN Dogs Cuddle Cats))) -- what should this print out? 
-print(isMean (And (NVN Cats Chase Dogs) (NVN Dogs Eat Cats))) -- what should this print out? 
+--print(isNice (And (NVN Cats Chase Dogs) (NVN Dogs Cuddle Cats))) -- what should this print out? 
+--print(isMean (And (NVN Cats Chase Dogs) (NVN Dogs Eat Cats))) -- what should this print out? 

@@ -1,0 +1,95 @@
+-- Grammar for the animal sentence language:
+--
+--   s  ::=  n v n  |  s `and` s
+--   n  ::=  `cats` | `dogs` | `ducks`
+--   v  ::=  `chase` | `cuddle`
+
+data Sentence
+   = NVN Noun Verb Noun
+   | And Sentence Sentence
+  deriving (Eq,Show)
+
+data Noun = Cats | Garfields | Toms |
+            Dogs | Cliffords | Snoopys |
+            Sharlenas | Twilios | Jerrys | Lasagnas | Ducks
+  deriving (Eq,Show)
+
+data Verb = Love | Cuddle | Flop | Lick | Use | Attack |
+            Eat | Sleep | Bathe | Meow | Nap | Chase
+  deriving (Eq,Show)
+
+
+-- | The sentence: cats cuddle ducks and dogs cuddle ducks
+ex1 :: Sentence
+ex1 = And (NVN Cats Cuddle Ducks) (NVN Dogs Cuddle Ducks)
+
+-- | The sentence: dogs chase cats and cats chase ducks and ducks chase cats
+ex2 :: Sentence
+ex2 = And (NVN Dogs Chase Cats) (And (NVN Cats Chase Ducks) (NVN Ducks Chase Cats))
+-- ex2 = And (And (NVN Dogs Chase Cats) (NVN Cats Chase Ducks)) (NVN Ducks Chase Cats) <-- SAME THING
+
+-- | Does the sentence contain cuddling?
+isNice :: Sentence -> Bool
+isNice (NVN _ Chase _)  = False
+isNice (NVN _ Cuddle _) = True
+isNice (And l r)        = isNice l && isNice r
+
+-- PART ONE
+-- | Does the sentence contain Chasing?
+isMean :: Sentence -> Bool
+-- IMPLEMENT HERE
+isMean (And l r)        = isMean l && isMean r
+
+
+
+
+
+
+-- PART TWO
+-- we need "pretty" print functions because ALL elements of the construtor must be the same (ie String)
+-- | Pretty print a noun.
+prettyNoun :: Noun -> String
+prettyNoun Cats  = "Cats"
+prettyNoun Garfields  = "Garfields"
+prettyNoun Toms  = "Toms"
+prettyNoun Dogs  = "Dogs"
+prettyNoun Cliffords  = "Cliffords"
+prettyNoun Snoopys  = "Snoopys"
+prettyNoun Sharlenas  = "Sharlenas"
+prettyNoun Twilios  = "Twilios"
+prettyNoun Jerrys  = "Jerrys"
+prettyNoun Lasagnas  = "Lasagnas"
+prettyNoun Ducks = "Ducks"
+
+-- | Pretty print a verb.
+prettyVerb :: Verb -> String
+prettyVerb Love  = "Love"
+prettyVerb Cuddle  = "Cuddle"
+prettyVerb Flop  = "Flop"
+prettyVerb Lick  = "Lick"
+prettyVerb Use  = "Use"
+prettyVerb Attack  = "Attack"
+prettyVerb Eat  = "Eat"
+prettyVerb Sleep  = "Sleep"
+prettyVerb Bathe  = "Bathe"
+prettyVerb Meow  = "Meow"
+prettyVerb Nap  = "Nap"
+prettyVerb Chase = "Chase"
+
+
+-- | Change nice verbs to mean verbs 
+nicetomean :: Verb -> String
+-- IMPLEMENT HERE
+
+-- | Change sentence nice to mean.
+meansent :: Sentence -> String
+-- meansent (NVN a b c) = prettyNoun a ++ " " ++ IMPLEMENT ++ " " ++  prettyNoun c
+meansent (And l r) = meansent l ++ " and " ++ meansent r
+
+
+main :: IO ()
+main =  do
+putStr "Welcome to Cat Speak 101\n"
+print(ex1)
+print(isNice (And (NVN Cats Chase Dogs) (NVN Dogs Cuddle Cats))) -- what should this print out? 
+print(isMean (And (NVN Cats Chase Dogs) (NVN Dogs Eat Cats))) -- what should this print out? 
